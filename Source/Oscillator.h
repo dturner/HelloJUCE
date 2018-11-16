@@ -66,11 +66,11 @@ public:
                 audioData[i] = sinf(mPhase) * mAmplitude;
 
                 // Square wave
-                /*if (mPhase <= kPi){
+                if (mPhase <= kPi){
                     audioData[i] = -mAmplitude;
                 } else {
                     audioData[i] = mAmplitude;
-                }*/
+                }
 
                 mPhase += mPhaseIncrement;
                 if (mPhase > kTwoPi) mPhase -= kTwoPi;

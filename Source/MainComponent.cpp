@@ -16,11 +16,14 @@ MainComponent::MainComponent()
     setSize (800, 600);
 
     // specify the number of input and output channels that we want to open
-    setAudioChannels (2, 1);
+    setAudioChannels (0, 2);
     
-    osc.setWaveOn(true);
-    osc.setAmplitude(0.3);
-    osc.setFrequency(140.0);
+    for (auto &osc : oscs){
+        osc.setAmplitude(0.3);
+        osc.setFrequency(160.0);
+        osc.setWaveOn(true);
+        osc.setSampleRate(deviceManager.getCurrentAudioDevice()->getCurrentSampleRate());
+    }
 }
 
 MainComponent::~MainComponent()
@@ -45,8 +48,11 @@ void MainComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFil
 {
     for (int channel = 0; channel < bufferToFill.buffer->getNumChannels(); ++channel){
         float * const buffer = bufferToFill.buffer->getWritePointer(channel, bufferToFill.startSample);
-        osc.renderAudio(buffer, bufferToFill.numSamples);
+        oscs[channel].renderAudio(buffer, bufferToFill.numSamples);
     }
+    
+    //DBG ("In callback!");
+
 }
 
 void MainComponent::releaseResources()
