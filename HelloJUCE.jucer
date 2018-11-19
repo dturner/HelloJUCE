@@ -9,6 +9,8 @@
       <FILE id="kNZLAb" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="gGeKZu" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="pGWIMu" name="StereoOscillator.h" compile="0" resource="0"
+            file="Source/StereoOscillator.h"/>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>

@@ -14,14 +14,24 @@ MainComponent::MainComponent()
     // Make sure you set the size of the component after
     // you add any child components.
     setSize (800, 600);
-
+    
+    button.setButtonText("Click me!");
+    
+    int width = 100;
+    int height = 50;
+    
+    button.setBounds(((getWidth() - width) / 2), (getHeight() - height) / 2, width, height);
+    button.setEnabled(true);
+    button.addListener(this);
+    
+    addAndMakeVisible (button);
+    
     // specify the number of input and output channels that we want to open
     setAudioChannels (0, 2);
     
     for (auto &osc : oscs){
         osc.setAmplitude(0.3);
         osc.setFrequency(160.0);
-        osc.setWaveOn(true);
         osc.setSampleRate(deviceManager.getCurrentAudioDevice()->getCurrentSampleRate());
     }
 }
@@ -30,6 +40,12 @@ MainComponent::~MainComponent()
 {
     // This shuts down the audio device and clears the audio source.
     shutdownAudio();
+}
+
+void MainComponent::buttonStateChanged(Button *button){
+    bool isOn = (button->getState() == Button::ButtonState::buttonDown);
+    oscs[0].setWaveOn(isOn);
+    oscs[1].setWaveOn(isOn);
 }
 
 //==============================================================================
@@ -50,9 +66,6 @@ void MainComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFil
         float * const buffer = bufferToFill.buffer->getWritePointer(channel, bufferToFill.startSample);
         oscs[channel].renderAudio(buffer, bufferToFill.numSamples);
     }
-    
-    //DBG ("In callback!");
-
 }
 
 void MainComponent::releaseResources()
@@ -69,7 +82,6 @@ void MainComponent::paint (Graphics& g)
     // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
 
-    // You can add your drawing code here!
 }
 
 void MainComponent::resized()

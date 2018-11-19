@@ -16,7 +16,7 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent   : public AudioAppComponent
+class MainComponent   : public AudioAppComponent, Button::Listener
 {
 public:
     //==============================================================================
@@ -31,11 +31,15 @@ public:
     //==============================================================================
     void paint (Graphics& g) override;
     void resized() override;
+    
+    void buttonClicked (Button*) override {};
+    void buttonStateChanged(Button *button) override;
 
 private:
     //==============================================================================
     // Your private member variables go here...
     Oscillator<float> oscs[2];
+    TextButton button;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
